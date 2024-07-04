@@ -1,0 +1,60 @@
+{
+  "transactions": [
+    {
+      "id": "1",
+      "description": "Desenvolvimento de site",
+      "type": "income",
+      "category": "Venda",
+      "price": 22000,
+      "createdAt": "2024-06-28T01:56:26.637Z"
+    },
+    {
+      "id": "2",
+      "description": "Hamburger",
+      "type": "outcome",
+      "category": "Compra",
+      "price": 35,
+      "createdAt": "2024-06-28T01:30:26.637Z"
+    },
+    {
+      "id": "3",
+      "description": "Churrasco",
+      "type": "outcome",
+      "category": "Compra",
+      "price": 66,
+      "createdAt": "2024-07-01T22:30:00.637Z"
+    },
+    {
+      "id": "4",
+      "description": "Viagem",
+      "type": "outcome",
+      "category": "Compra",
+      "price": 800,
+      "createdAt": "2024-07-04T10:30:00.637Z"
+    },
+    {
+      "id": "5e93",
+      "description": "Desenvolvimento de App",
+      "price": 10000,
+      "category": "Venda",
+      "type": "income",
+      "createdAt": "2024-07-04T15:21:11.953Z"
+    },
+    {
+      "id": "ea7f",
+      "description": "Tribullus",
+      "price": 36,
+      "category": "Compra",
+      "type": "outcome",
+      "createdAt": "2024-07-04T17:43:30.617Z"
+    },
+    {
+      "id": "2b48",
+      "description": "Shampoo",
+      "price": 58,
+      "category": "Compra",
+      "type": "outcome",
+      "createdAt": "2024-07-04T17:59:16.830Z"
+    }
+  ]
+}
