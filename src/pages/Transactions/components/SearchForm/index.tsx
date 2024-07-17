@@ -8,7 +8,7 @@ import { TransactionsContext } from '../../../../contexts/TransactionsContext'
 
 // DEFININDO O ESQUEMA DO FORMULÁRIO
 const searchFormSchema = z.object({
-  query: z.string(),
+  query: z.string()
 })
 
 // VALIDANDO O TIPO DE DADOS

@@ -6,7 +6,7 @@
       "type": "income",
       "category": "Venda",
       "price": 22000,
-      "createdAt": "2024-06-28T01:56:26.637Z"
+      "createdAt": "2024-06-21T01:56:26.637Z"
     },
     {
       "id": "2",
@@ -33,7 +33,7 @@
       "createdAt": "2024-07-04T10:30:00.637Z"
     },
     {
-      "id": "5e93",
+      "id": "5",
       "description": "Desenvolvimento de App",
       "price": 10000,
       "category": "Venda",
@@ -41,7 +41,7 @@
       "createdAt": "2024-07-04T15:21:11.953Z"
     },
     {
-      "id": "ea7f",
+      "id": "8",
       "description": "Tribullus",
       "price": 36,
       "category": "Compra",
@@ -49,12 +49,92 @@
       "createdAt": "2024-07-04T17:43:30.617Z"
     },
     {
-      "id": "2b48",
+      "id": "9",
       "description": "Shampoo",
       "price": 58,
       "category": "Compra",
       "type": "outcome",
       "createdAt": "2024-07-04T17:59:16.830Z"
+    },
+    {
+      "id": "10",
+      "description": "Tribullus",
+      "price": 50,
+      "category": "Compra",
+      "type": "outcome",
+      "createdAt": "2024-07-09T00:19:39.276Z"
+    },
+    {
+      "id": "11",
+      "description": "Bíblia de estudos",
+      "price": 80,
+      "category": "Compra",
+      "type": "outcome",
+      "createdAt": "2024-07-16T20:33:04.274Z"
+    },
+    {
+      "id": "12",
+      "description": "Mesa digitalizadora",
+      "price": 100,
+      "category": "Venda",
+      "type": "outcome",
+      "createdAt": "2024-07-16T20:35:55.040Z"
+    },
+    {
+      "id": "b08d",
+      "description": "Smart Band 7 pro",
+      "price": 167,
+      "category": "Compra",
+      "type": "outcome",
+      "createdAt": "2024-07-16T21:05:31.983Z"
+    },
+    {
+      "id": "e082",
+      "description": "Jantar a luz de velas",
+      "price": 188,
+      "category": "Compra",
+      "type": "outcome",
+      "createdAt": "2024-07-17T17:21:07.712Z"
+    },
+    {
+      "id": "bfab",
+      "description": "Whey Protein ",
+      "price": 100,
+      "category": "Compra",
+      "type": "outcome",
+      "createdAt": "2024-07-17T17:24:16.266Z"
+    },
+    {
+      "id": "83d3",
+      "description": "Creatina",
+      "price": 80,
+      "category": "Compra",
+      "type": "outcome",
+      "createdAt": "2024-07-17T17:31:43.110Z"
+    },
+    {
+      "id": "05cd",
+      "description": "Beta Alanina",
+      "price": 70,
+      "category": "Compra",
+      "type": "outcome",
+      "createdAt": "2024-07-17T17:42:55.690Z"
+    },
+    {
+      "id": "a5a0",
+      "description": "BCCA",
+      "price": 35,
+      "category": "Compra",
+      "type": "outcome",
+      "createdAt": "2024-07-17T17:44:39.310Z"
+    },
+    {
+      "id": "83c2",
+      "description": "Whey Protein Isolate",
+      "price": 180,
+      "category": "Compra",
+      "type": "outcome",
+      "createdAt": "2024-07-17T18:43:52.093Z"
     }
   ]
 }
