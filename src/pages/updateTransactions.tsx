@@ -1,6 +1,6 @@
 import { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { TransactionsContext } from '../../contexts/TransactionsContext';
+import { TransactionsContext } from '../contexts/TransactionsContext';
 
 interface NewTransactionModalUpdateProps {
   transactionId: number | null;

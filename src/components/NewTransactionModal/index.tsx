@@ -1,27 +1,32 @@
-import * as Dialog from '@radix-ui/react-dialog'
+import * as Dialog from "@radix-ui/react-dialog";
 import {
   CloseButton,
   Content,
   Overlay,
   TransactionType,
   TransactionTypeButton,
-} from './styles'
-import { ArrowCircleDown, ArrowCircleUp, X } from 'phosphor-react'
-import { Controller, useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import * as z from 'zod'
-import { useContext } from 'react'
-import { TransactionsContext } from '../../contexts/TransactionsContext'
+} from "./styles";
+import { ArrowCircleDown, ArrowCircleUp, X } from "phosphor-react";
+import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { useContext } from "react";
+import { TransactionsContext } from "../../contexts/TransactionsContext";
 
 const newTransactionFormSchema = z.object({
   description: z.string(),
   price: z.number(),
   category: z.string(),
-  type: z.enum(['income', 'outcome']),
-})
-type NewTransactionFormInputs = z.infer<typeof newTransactionFormSchema>
+  type: z.enum(["income", "outcome"]),
+});
 
-export function NewTransactionModal() {
+type NewTransactionFormInputs = z.infer<typeof newTransactionFormSchema>;
+
+interface NewTransactionModalProps {
+  onClose?: () => void;
+}
+
+export function NewTransactionModal({ onClose }: NewTransactionModalProps) {
   const { createTransaction } = useContext(TransactionsContext);
 
   const {
@@ -33,9 +38,9 @@ export function NewTransactionModal() {
   } = useForm<NewTransactionFormInputs>({
     resolver: zodResolver(newTransactionFormSchema),
     defaultValues: {
-      type: 'income',
+      type: "income",
     },
-  })
+  });
 
   async function handleCreateNewTransaction(data: NewTransactionFormInputs) {
     const { description, price, category, type } = data;
@@ -45,9 +50,15 @@ export function NewTransactionModal() {
       price,
       category,
       type,
-    })
+    });
 
-    reset()
+    reset();
+
+    if (onClose) {
+      setTimeout(() => {
+        onClose();
+      }, 1000); // Fecha após 1 segundo (se quiser)
+    }
   }
 
   return (
@@ -65,24 +76,27 @@ export function NewTransactionModal() {
           <input
             type="text"
             placeholder="Descrição"
-            {...register('description')}
+            {...register("description")}
+            autoComplete="off"
           />
           <input
             type="number"
             placeholder="Preço"
-            {...register('price', { valueAsNumber: true })}
+            {...register("price", { valueAsNumber: true })}
+            autoComplete="off"
           />
           <input
             type="text"
             placeholder="Categoria"
-            {...register('category')}
+            {...register("category")}
+            autoComplete="off"
           />
 
           <Controller
             control={control}
             name="type"
             render={({ field }) => {
-              console.log(field)
+              console.log(field);
 
               return (
                 <TransactionType
@@ -99,7 +113,7 @@ export function NewTransactionModal() {
                     Saída
                   </TransactionTypeButton>
                 </TransactionType>
-              )
+              );
             }}
           />
 
@@ -109,5 +123,5 @@ export function NewTransactionModal() {
         </form>
       </Content>
     </Dialog.Portal>
-  )
+  );
 }

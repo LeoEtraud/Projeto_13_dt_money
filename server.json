@@ -135,6 +135,38 @@
       "category": "Compra",
       "type": "outcome",
       "createdAt": "2024-07-17T18:43:52.093Z"
+    },
+    {
+      "id": "58f8",
+      "description": "Claça",
+      "price": 120,
+      "category": "Compra",
+      "type": "outcome",
+      "createdAt": "2024-07-23T16:44:28.988Z"
+    },
+    {
+      "id": "6157",
+      "description": "Calça Jeans",
+      "price": 150,
+      "category": "Compra",
+      "type": "outcome",
+      "createdAt": "2024-07-23T17:04:01.407Z"
+    },
+    {
+      "id": "de06",
+      "description": "Balões com gás hélio",
+      "price": 128,
+      "category": "Compra",
+      "type": "outcome",
+      "createdAt": "2024-08-09T01:12:01.878Z"
+    },
+    {
+      "id": "f91b",
+      "description": "Compra de um Notebook",
+      "price": 3500,
+      "category": "Informática",
+      "type": "outcome",
+      "createdAt": "2024-11-15T01:36:36.144Z"
     }
   ]
 }
