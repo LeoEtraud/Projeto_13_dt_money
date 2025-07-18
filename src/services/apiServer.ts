@@ -1,5 +1,5 @@
 import axios from "axios";
 
-export const api = axios.create({
+export const apiDtMoney = axios.create({
   baseURL: import.meta.env.VITE_API,
 });

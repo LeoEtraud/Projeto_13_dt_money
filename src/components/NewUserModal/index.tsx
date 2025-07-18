@@ -4,9 +4,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useContext, useState } from "react";
-import { TransactionsContext } from "../../contexts/TransactionsContext";
+
 import { X } from "phosphor-react";
 import { formatCpf } from "../../utils/formatter";
+import { TransactionsContext } from "../../contexts/transactionProvider";
 
 const newUserFormSchema = z.object({
   id: z.string(),

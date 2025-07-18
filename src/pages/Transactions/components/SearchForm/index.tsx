@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useContext } from "react";
-import { TransactionsContext } from "../../../../contexts/TransactionsContext";
+import { TransactionsContext } from "../../../../contexts/transactionProvider";
 
 // DEFININDO O ESQUEMA DO FORMULÁRIO
 const searchFormSchema = z.object({
@@ -15,7 +15,7 @@ const searchFormSchema = z.object({
 type SearchFormInputs = z.infer<typeof searchFormSchema>;
 
 export function SearchForm() {
-  const { fetchTransactions } = useContext(TransactionsContext);
+  const { searchTransaction } = useContext(TransactionsContext);
 
   const {
     register,
@@ -28,13 +28,13 @@ export function SearchForm() {
 
   // FUNÇÃO ASSÍNCRONA QUE ENVIA OS DADOS DO FORMULÁRIO
   async function handleSearchTransactions(data: SearchFormInputs) {
-    await fetchTransactions(data.query);
+    await searchTransaction(data.query);
   }
 
   // FUNÇÃO PARA LIMPAR O FORMULÁRIO
   function handleClearSearch() {
     reset();
-    fetchTransactions("");
+    searchTransaction("");
   }
 
   return (

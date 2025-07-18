@@ -1,18 +1,23 @@
-import * as Dialog from '@radix-ui/react-dialog';
+import * as Dialog from "@radix-ui/react-dialog";
+import { CloseButton, Content, Overlay } from "./styles";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { useContext, useState } from "react";
+
+import { X } from "phosphor-react";
 import {
-  CloseButton,
-  Content,
-  Overlay,
-} from './styles';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-import { useContext, useState } from 'react';
-import { TransactionsContext } from '../../contexts/TransactionsContext';
-import { X } from 'phosphor-react';
-import { Accordion, AccordionButton, AccordionItem, AccordionPanel, Box, Flex, Input } from '@chakra-ui/react';
-import { AddIcon, MinusIcon } from '@chakra-ui/icons';
-import { formatCpf } from '../../utils/formatter';
+  Accordion,
+  AccordionButton,
+  AccordionItem,
+  AccordionPanel,
+  Box,
+  Flex,
+  Input,
+} from "@chakra-ui/react";
+import { AddIcon, MinusIcon } from "@chakra-ui/icons";
+import { formatCpf } from "../../utils/formatter";
+import { TransactionsContext } from "../../contexts/transactionProvider";
 
 const newUpdateUserFormSchema = z.object({
   id: z.string(),
@@ -48,7 +53,15 @@ export function ProfileModal() {
   });
 
   async function handleUpdateUser(data: UpdateUserFormInputs) {
-    const { id, full_name, cpf, email, password, new_password, confirm_password } = data;
+    const {
+      id,
+      full_name,
+      cpf,
+      email,
+      password,
+      new_password,
+      confirm_password,
+    } = data;
 
     await updateUser({
       id,
@@ -78,17 +91,21 @@ export function ProfileModal() {
           <input
             type="text"
             placeholder="Nome Completo"
-            {...register('full_name')}
+            {...register("full_name")}
             autoComplete="off"
             required
           />
           <input
             type="text"
             placeholder="CPF"
-            {...register('cpf')}
+            {...register("cpf")}
             autoComplete="off"
             required
-            onChange={(e) => setValue('cpf', formatCpf(e.target.value), { shouldValidate: true })}
+            onChange={(e) =>
+              setValue("cpf", formatCpf(e.target.value), {
+                shouldValidate: true,
+              })
+            }
             maxLength={14}
           />
           <input
@@ -96,16 +113,26 @@ export function ProfileModal() {
             placeholder="E-mail"
             autoComplete="off"
             required
-            {...register('email')}
+            {...register("email")}
           />
 
           <Accordion allowMultiple>
             <AccordionItem>
               {({ isExpanded }) => (
                 <>
-                  <AccordionButton cursor={'pointer'} color="white" bgColor={'gray'} border={0}>
-                    <Flex justifyContent="space-between" p={15} alignItems="center" width="100%">
-                      <Box as='span' textAlign='left'>
+                  <AccordionButton
+                    cursor={"pointer"}
+                    color="white"
+                    bgColor={"gray"}
+                    border={0}
+                  >
+                    <Flex
+                      justifyContent="space-between"
+                      p={15}
+                      alignItems="center"
+                      width="100%"
+                    >
+                      <Box as="span" textAlign="left">
                         Alterar Senha
                       </Box>
                       {isExpanded ? (
@@ -121,7 +148,7 @@ export function ProfileModal() {
                       <Input
                         type={"password"}
                         placeholder="Senha atual"
-                        {...register('password')}
+                        {...register("password")}
                         autoComplete="off"
                         required
                       />
@@ -129,7 +156,7 @@ export function ProfileModal() {
                       <Input
                         type={"password"}
                         placeholder="Nova senha"
-                        {...register('new_password')}
+                        {...register("new_password")}
                         autoComplete="off"
                         required
                       />
@@ -137,7 +164,7 @@ export function ProfileModal() {
                       <Input
                         type={"password"}
                         placeholder="Confirme a nova senha"
-                        {...register('confirm_password')}
+                        {...register("confirm_password")}
                         autoComplete="off"
                         required
                       />
@@ -147,7 +174,7 @@ export function ProfileModal() {
               )}
             </AccordionItem>
           </Accordion>
-          
+
           <button type="submit" disabled={isSubmitting}>
             Atualizar Dados
           </button>

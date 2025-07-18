@@ -7,38 +7,47 @@ import {
   TransactionsContainer,
   TransactionsTable,
 } from "./styles";
-import { TransactionsContext } from "../contexts/TransactionsContext";
+
 import { dateFormatter, priceFormatter } from "../utils/formatter";
 import { IconButton, HStack } from "@chakra-ui/react";
 import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import * as Dialog from "@radix-ui/react-dialog";
-import { NewTransactionModalUpdate } from "./updateTransactions";
+import { TransactionModal } from "../components/TransactionModal";
+import { TransactionsContext } from "../contexts/transactionProvider";
 
 export function Transactions() {
-  const { transactions, fetchTransactions } = useContext(TransactionsContext);
-  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
-  const [selectedTransactionId, setSelectedTransactionId] = useState<
-    number | null
-  >(null);
+  const {
+    transactions,
+    searchTransaction,
+    allTransactions,
+    isModalOpen,
+    setIsModalOpen,
+  } = useContext(TransactionsContext);
 
+  // Aqui pode ser Transaction | null (assuma Transaction é o tipo do seu objeto)
+  const [modalTransaction, setModalTransaction] = useState<any | null>(null);
+
+  useEffect(() => {
+    searchTransaction();
+  }, []);
+
+  // Abrir para editar
   const handleUpdate = (id: number) => {
-    setSelectedTransactionId(id);
-    setIsUpdateModalOpen(true);
+    const transaction = allTransactions.find((t) => t.id === id);
+    setModalTransaction(transaction);
+    setIsModalOpen(true);
   };
 
   const handleDelete = (id: number) => {
+    // Sua lógica de deletar
     console.log("Deletar transação com id:", id);
-    // Aqui você pode chamar a função de deletar da sua API/contexto
   };
 
+  // Quando fechar modal, fecha e limpa transação
   const handleCloseModal = () => {
-    setIsUpdateModalOpen(false);
-    setSelectedTransactionId(null);
+    setIsModalOpen(false);
+    setTimeout(() => setModalTransaction(null), 200); // timeout para esperar animação, se desejar
   };
-
-  useEffect(() => {
-    fetchTransactions();
-  }, []);
 
   return (
     <div>
@@ -53,7 +62,7 @@ export function Transactions() {
               transactions.map((transaction) => (
                 <tr key={transaction.id}>
                   <td width="50%">{transaction.description}</td>
-                  <td>
+                  <td width="50%">
                     <PriceHighlight variant={transaction.type}>
                       {transaction.type === "outcome" && "- "}
                       {priceFormatter.format(transaction.price)}
@@ -66,7 +75,6 @@ export function Transactions() {
                       ? dateFormatter.format(new Date(transaction.createdAt))
                       : "--"}
                   </td>
-
                   <td>
                     <HStack spacing={2}>
                       <IconButton
@@ -91,14 +99,17 @@ export function Transactions() {
         </TransactionsTable>
       </TransactionsContainer>
 
-      <Dialog.Root open={isUpdateModalOpen} onOpenChange={handleCloseModal}>
-        <Dialog.Overlay />
-        <Dialog.Content>
-          <NewTransactionModalUpdate
-            transactionId={selectedTransactionId}
-            onClose={handleCloseModal}
-          />
-        </Dialog.Content>
+      <Dialog.Root open={isModalOpen} onOpenChange={setIsModalOpen}>
+        <Dialog.Portal>
+          <Dialog.Overlay />
+          <Dialog.Content>
+            <TransactionModal
+              transactionToEdit={modalTransaction}
+              onSubmitComplete={handleCloseModal}
+              key={modalTransaction?.id || "create"} // Força remount para cada transação
+            />
+          </Dialog.Content>
+        </Dialog.Portal>
       </Dialog.Root>
     </div>
   );

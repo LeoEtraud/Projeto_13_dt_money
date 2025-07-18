@@ -1,17 +1,17 @@
 import { HeaderContainer, HeaderContent, NewTransactionButton } from "./styles";
 import logoImg from "../../assets/logo.svg";
 import * as Dialog from "@radix-ui/react-dialog";
-import { NewTransactionModal } from "../NewTransactionModal";
+import { TransactionModal } from "../TransactionModal";
 import { ProfileModal } from "../ProfileModal";
 import { NewUserModal } from "../NewUserModal";
 import { NewUserButton } from "../NewUserModal/styles";
 import { ProfileButton } from "../ProfileModal/styles";
 import { List } from "phosphor-react";
-import { useState } from "react";
+import { useContext } from "react";
+import { TransactionsContext } from "../../contexts/transactionProvider";
 
 export function Header() {
-  const [modalOpen, setModalOpen] = useState(false);
-
+  const { isModalOpen, setIsModalOpen } = useContext(TransactionsContext);
   return (
     <HeaderContainer>
       <HeaderContent>
@@ -19,11 +19,11 @@ export function Header() {
 
         <div className="actions">
           {/* MODAL DE NOVA TRANSAÇÃO */}
-          <Dialog.Root open={modalOpen} onOpenChange={setModalOpen}>
+          <Dialog.Root open={isModalOpen} onOpenChange={setIsModalOpen}>
             <Dialog.Trigger asChild>
               <NewTransactionButton>Nova Transação</NewTransactionButton>
             </Dialog.Trigger>
-            <NewTransactionModal onClose={() => setModalOpen(false)} />
+            <TransactionModal onSubmitComplete={() => setIsModalOpen(false)} />
           </Dialog.Root>
 
           {/* MODAL DE NOVO USUÁRIO */}
