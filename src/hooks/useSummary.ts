@@ -4,7 +4,9 @@ import { TransactionsContext } from "../contexts/transactionProvider";
 export function useSummary() {
   const { allTransactions } = useContext(TransactionsContext);
 
-  const summary = (allTransactions ?? []).reduce(
+  const summary = (
+    Array.isArray(allTransactions) ? allTransactions : []
+  ).reduce(
     (contador, transaction) => {
       if (transaction.type === "income") {
         contador.income += transaction.price;
