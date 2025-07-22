@@ -3,8 +3,6 @@ import logoImg from "../../assets/logo.svg";
 import * as Dialog from "@radix-ui/react-dialog";
 import { TransactionModal } from "../TransactionModal";
 import { ProfileModal } from "../ProfileModal";
-import { NewUserModal } from "../NewUserModal";
-import { NewUserButton } from "../NewUserModal/styles";
 import { ProfileButton } from "../ProfileModal/styles";
 import { List } from "phosphor-react";
 import { useContext } from "react";
@@ -27,12 +25,12 @@ export function Header() {
           </Dialog.Root>
 
           {/* MODAL DE NOVO USUÁRIO */}
-          <Dialog.Root>
+          {/* <Dialog.Root>
             <Dialog.Trigger asChild>
               <NewUserButton>Novo Usuário</NewUserButton>
             </Dialog.Trigger>
             <NewUserModal />
-          </Dialog.Root>
+          </Dialog.Root> */}
 
           {/* MODAL DE PERFIL */}
           <Dialog.Root>

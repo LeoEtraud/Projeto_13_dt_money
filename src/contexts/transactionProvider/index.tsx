@@ -31,6 +31,8 @@ export function TransactionsProvider({ children }: TransactionContextType) {
         duration: 5000,
         isClosable: true,
       });
+      // ATUALIZA A LISTA COM MINHA NOVA TRANSAÇÃO
+      searchTransaction("");
     } catch (error: any) {
       toast({
         position: "top",

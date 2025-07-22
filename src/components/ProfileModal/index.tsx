@@ -31,11 +31,10 @@ const newUpdateUserFormSchema = z.object({
 type UpdateUserFormInputs = z.infer<typeof newUpdateUserFormSchema>;
 
 export function ProfileModal() {
-  const { updateUser } = useContext(TransactionsContext);
   const [dataUser] = useState({
-    full_name: "",
-    cpf: "",
-    email: "",
+    full_name: "Leonardo Duarte",
+    cpf: "123.456.789-00",
+    email: "leonardo.duarte.of@gmail.com",
     password: "",
     new_password: "",
     confirm_password: "",
@@ -111,9 +110,9 @@ export function ProfileModal() {
           <input
             type="text"
             placeholder="E-mail"
+            {...register("email")}
             autoComplete="off"
             required
-            {...register("email")}
           />
 
           <Accordion allowMultiple>
@@ -174,10 +173,14 @@ export function ProfileModal() {
               )}
             </AccordionItem>
           </Accordion>
-
-          <button type="submit" disabled={isSubmitting}>
-            Atualizar Dados
-          </button>
+          <div className="button-group">
+            <button type="submit" disabled={isSubmitting}>
+              Atualizar Dados
+            </button>
+            <button type="submit" id="logout" disabled={isSubmitting}>
+              Sair da Conta
+            </button>
+          </div>
         </form>
       </Content>
     </Dialog.Portal>

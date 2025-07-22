@@ -27,6 +27,15 @@ export const Content = styled(Dialog.Content)`
     flex-direction: column;
     gap: 1rem;
 
+    .button-group {
+      display: flex;
+      flex-direction: column; // ou 'row' se quiser lado a lado
+      align-items: center; // centraliza os botões
+      gap: 1rem;
+      width: 100%; // garante centralização total
+      margin-top: 0.1rem;
+    }
+
     input {
       border-radius: 6px;
       border: 0;
@@ -41,14 +50,17 @@ export const Content = styled(Dialog.Content)`
 
     button[type="submit"] {
       height: 58px;
+      width: 20rem;
       border: 0;
       background: ${(props) => props.theme["green-500"]};
       color: ${(props) => props.theme.white};
       font-weight: bold;
       padding: 0 1.25rem;
       border-radius: 6px;
-      margin-top: 1.5rem;
+      margin-top: 1rem;
       cursor: pointer;
+
+      align-items: center;
 
       &:disabled {
         opacity: 0.6;
@@ -57,6 +69,29 @@ export const Content = styled(Dialog.Content)`
 
       &:not(:disabled):hover {
         background: ${(props) => props.theme["green-700"]};
+        transition: background-color 0.2s;
+      }
+    }
+
+    #logout[type="submit"] {
+      height: 58px;
+      width: 10rem;
+      border: 0;
+      background: ${(props) => props.theme["red-500"]};
+      color: ${(props) => props.theme.white};
+      font-weight: bold;
+      padding: 0 1.25rem;
+      border-radius: 6px;
+      margin-top: 1rem;
+      cursor: pointer;
+
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
+      &:not(:disabled):hover {
+        background: ${(props) => props.theme["red-700"]};
         transition: background-color 0.2s;
       }
     }
