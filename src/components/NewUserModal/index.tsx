@@ -3,11 +3,10 @@ import { CloseButton, Content, Overlay } from "./styles";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { useContext, useState } from "react";
+import { useState } from "react";
 
 import { X } from "phosphor-react";
 import { formatCpf } from "../../utils/formatter";
-import { TransactionsContext } from "../../contexts/transactionProvider";
 
 const newUserFormSchema = z.object({
   id: z.string(),
@@ -20,7 +19,6 @@ const newUserFormSchema = z.object({
 type NewUserFormInputs = z.infer<typeof newUserFormSchema>;
 
 export function NewUserModal() {
-  const { createUser } = useContext(TransactionsContext);
   const [dataUser] = useState({
     full_name: "",
     cpf: "",
@@ -40,18 +38,7 @@ export function NewUserModal() {
     defaultValues: dataUser,
   });
 
-  async function handleNewUser(data: NewUserFormInputs) {
-    const { id, full_name, cpf, email, password, confirm_password } = data;
-
-    await createUser({
-      id,
-      full_name,
-      cpf,
-      email,
-      password,
-      confirm_password,
-    });
-
+  async function handleNewUser() {
     reset();
   }
 

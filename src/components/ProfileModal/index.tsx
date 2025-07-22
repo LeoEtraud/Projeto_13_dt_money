@@ -3,7 +3,7 @@ import { CloseButton, Content, Overlay } from "./styles";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { useContext, useState } from "react";
+import { useState } from "react";
 
 import { X } from "phosphor-react";
 import {
@@ -17,7 +17,6 @@ import {
 } from "@chakra-ui/react";
 import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 import { formatCpf } from "../../utils/formatter";
-import { TransactionsContext } from "../../contexts/transactionProvider";
 
 const newUpdateUserFormSchema = z.object({
   id: z.string(),
@@ -51,27 +50,7 @@ export function ProfileModal() {
     defaultValues: dataUser,
   });
 
-  async function handleUpdateUser(data: UpdateUserFormInputs) {
-    const {
-      id,
-      full_name,
-      cpf,
-      email,
-      password,
-      new_password,
-      confirm_password,
-    } = data;
-
-    await updateUser({
-      id,
-      full_name,
-      cpf,
-      email,
-      password,
-      new_password,
-      confirm_password,
-    });
-
+  async function handleUpdateUser() {
     reset();
   }
 
