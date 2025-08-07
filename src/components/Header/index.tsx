@@ -9,7 +9,9 @@ import { useContext } from "react";
 import { TransactionsContext } from "../../contexts/transactionProvider";
 
 export function Header() {
-  const { isModalOpen, setIsModalOpen } = useContext(TransactionsContext);
+  const { isModalOpen, modalTransaction, openNewTransactionModal, closeModal } =
+    useContext(TransactionsContext);
+
   return (
     <HeaderContainer>
       <HeaderContent>
@@ -17,11 +19,15 @@ export function Header() {
 
         <div className="actions">
           {/* MODAL DE NOVA TRANSAÇÃO */}
-          <Dialog.Root open={isModalOpen} onOpenChange={setIsModalOpen}>
-            <Dialog.Trigger asChild>
-              <NewTransactionButton>Nova Transação</NewTransactionButton>
-            </Dialog.Trigger>
-            <TransactionModal onSubmitComplete={() => setIsModalOpen(false)} />
+          <Dialog.Root open={isModalOpen} onOpenChange={closeModal}>
+            <NewTransactionButton onClick={openNewTransactionModal}>
+              Nova Transação
+            </NewTransactionButton>
+            <TransactionModal
+              transactionToEdit={modalTransaction || undefined}
+              onSubmitComplete={closeModal}
+              key={modalTransaction?.id || "create"} // Força remount para cada transação
+            />
           </Dialog.Root>
 
           {/* MODAL DE NOVO USUÁRIO */}

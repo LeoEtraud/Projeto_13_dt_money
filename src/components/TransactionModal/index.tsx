@@ -83,68 +83,70 @@ export function TransactionModal({
   }
 
   return (
-    <Dialog.Portal>
-      <Overlay />
+    <Content>
+      <Dialog.Title>
+        {transactionToEdit ? "Editar Transação" : "Nova Transação"}
+      </Dialog.Title>
 
-      <Content>
-        <Dialog.Title>
-          {transactionToEdit ? "Editar Transação" : "Nova Transação"}
-        </Dialog.Title>
+      <CloseButton
+        type="button"
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          if (onSubmitComplete) onSubmitComplete();
+        }}
+        title="Fechar"
+      >
+        <X size={24} />
+      </CloseButton>
 
-        <CloseButton type="button" onClick={onSubmitComplete} title="Fechar">
-          <X size={24} />
-        </CloseButton>
+      <form onSubmit={handleSubmit(handleFormSubmit)}>
+        <input
+          type="text"
+          placeholder="Descrição"
+          {...register("description")}
+          autoComplete="off"
+        />
+        <input
+          type="number"
+          placeholder="Preço"
+          {...register("price", { valueAsNumber: true })}
+          autoComplete="off"
+        />
+        <input
+          type="text"
+          placeholder="Categoria"
+          {...register("category")}
+          autoComplete="off"
+        />
 
-        <form onSubmit={handleSubmit(handleFormSubmit)}>
-          <input
-            type="text"
-            placeholder="Descrição"
-            {...register("description")}
-            autoComplete="off"
-          />
-          <input
-            type="number"
-            placeholder="Preço"
-            {...register("price", { valueAsNumber: true })}
-            autoComplete="off"
-          />
-          <input
-            type="text"
-            placeholder="Categoria"
-            {...register("category")}
-            autoComplete="off"
-          />
+        <Controller
+          control={control}
+          name="type"
+          render={({ field }) => {
+            return (
+              <TransactionType
+                onValueChange={field.onChange}
+                value={field.value}
+              >
+                <TransactionTypeButton variant="income" value="income">
+                  <ArrowCircleUp size={24} />
+                  Entrada
+                </TransactionTypeButton>
 
-          <Controller
-            control={control}
-            name="type"
-            render={({ field }) => {
-              console.log(field);
+                <TransactionTypeButton variant="outcome" value="outcome">
+                  <ArrowCircleDown size={24} />
+                  Saída
+                </TransactionTypeButton>
+              </TransactionType>
+            );
+          }}
+        />
 
-              return (
-                <TransactionType
-                  onValueChange={field.onChange}
-                  value={field.value}
-                >
-                  <TransactionTypeButton variant="income" value="income">
-                    <ArrowCircleUp size={24} />
-                    Entrada
-                  </TransactionTypeButton>
-
-                  <TransactionTypeButton variant="outcome" value="outcome">
-                    <ArrowCircleDown size={24} />
-                    Saída
-                  </TransactionTypeButton>
-                </TransactionType>
-              );
-            }}
-          />
-
-          <button type="submit" disabled={isSubmitting}>
-            {transactionToEdit ? "Atualizar" : "Cadastrar"}
-          </button>
-        </form>
-      </Content>
-    </Dialog.Portal>
+        <button type="submit" disabled={isSubmitting}>
+          {transactionToEdit ? "Atualizar" : "Cadastrar"}
+        </button>
+      </form>
+    </Content>
   );
 }

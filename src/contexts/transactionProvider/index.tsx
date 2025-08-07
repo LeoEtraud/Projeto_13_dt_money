@@ -17,6 +17,9 @@ export function TransactionsProvider({ children }: TransactionContextType) {
   const [allTransactions, setAllTransactions] = useState<Transaction[]>([]);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalTransaction, setModalTransaction] = useState<Transaction | null>(
+    null
+  );
 
   const toast = useToast();
 
@@ -33,10 +36,12 @@ export function TransactionsProvider({ children }: TransactionContextType) {
       });
       // ATUALIZA A LISTA COM MINHA NOVA TRANSAÇÃO
       searchTransaction("");
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Erro desconhecido";
       toast({
         position: "top",
-        description: error.response.data.message,
+        description: errorMessage,
         status: "error",
         duration: 5000,
         isClosable: true,
@@ -46,7 +51,7 @@ export function TransactionsProvider({ children }: TransactionContextType) {
 
   // FUNÇÃO DE ATUALIZAÇÃO DE TRANSAÇÃO
   async function updateTransaction(
-    id: number,
+    id: string,
     updatedTransaction: Partial<Transaction>
   ) {
     setTransactions((prevTransactions) =>
@@ -65,17 +70,51 @@ export function TransactionsProvider({ children }: TransactionContextType) {
     );
   }
 
+  // FUNÇÃO PARA ABRIR MODAL DE NOVA TRANSAÇÃO
+  function openNewTransactionModal() {
+    setModalTransaction(null);
+    setIsModalOpen(true);
+  }
+
+  // FUNÇÃO PARA ABRIR MODAL DE EDIÇÃO
+  function openEditTransactionModal(transaction: Transaction) {
+    setModalTransaction(transaction);
+    setIsModalOpen(true);
+  }
+
+  // FUNÇÃO PARA FECHAR MODAL
+  function closeModal() {
+    setIsModalOpen(false);
+    setModalTransaction(null);
+  }
+
   // FUNÇÃO DE LISTAGEM DE TRANSAÇÕES
   async function searchTransaction(query?: string): Promise<void> {
     try {
       const response = await fetchTransaction(query);
 
-      setTransactions(response);
-      setAllTransactions(response);
-    } catch (error: any) {
+      // A API retorna um objeto com a propriedade 'transactions'
+      const transactionsArray = response.transactions || response;
+
+      // Converter price para number se necessário
+      const processedTransactions = transactionsArray.map(
+        (transaction: { price: string | number; [key: string]: unknown }) => ({
+          ...transaction,
+          price:
+            typeof transaction.price === "string"
+              ? parseFloat(transaction.price)
+              : transaction.price,
+        })
+      );
+
+      setTransactions(processedTransactions);
+      setAllTransactions(processedTransactions);
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Erro desconhecido";
       toast({
         position: "top",
-        description: error.response.data.message,
+        description: errorMessage,
         status: "error",
         duration: 5000,
         isClosable: true,
@@ -93,6 +132,10 @@ export function TransactionsProvider({ children }: TransactionContextType) {
         updateTransaction,
         isModalOpen,
         setIsModalOpen,
+        modalTransaction,
+        openNewTransactionModal,
+        openEditTransactionModal,
+        closeModal,
       }}
     >
       {children}

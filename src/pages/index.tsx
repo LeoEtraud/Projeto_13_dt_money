@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { Header } from "../components/Header";
 import { Summary } from "../components/Summary";
 import { SearchForm } from "./Transactions/components/SearchForm";
@@ -16,45 +16,31 @@ import {
 import { dateFormatter, priceFormatter } from "../utils/formatter";
 import { IconButton, HStack } from "@chakra-ui/react";
 import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
-import * as Dialog from "@radix-ui/react-dialog";
-import { TransactionModal } from "../components/TransactionModal";
 import { TransactionsContext } from "../contexts/transactionProvider";
-import { Transaction } from "../contexts/transactionProvider/types";
 
 export function Transactions() {
   const {
     transactions,
     searchTransaction,
     allTransactions,
-    isModalOpen,
-    setIsModalOpen,
+    openEditTransactionModal,
   } = useContext(TransactionsContext);
-
-  // Aqui pode ser Transaction | null (assuma Transaction é o tipo do seu objeto)
-  const [modalTransaction, setModalTransaction] = useState<Transaction | null>(
-    null
-  );
 
   useEffect(() => {
     searchTransaction();
   }, []);
 
   // Abrir para editar
-  const handleUpdate = (id: number) => {
+  const handleUpdate = (id: string) => {
     const transaction = allTransactions.find((t) => t.id === id);
-    setModalTransaction(transaction || null);
-    setIsModalOpen(true);
+    if (transaction) {
+      openEditTransactionModal(transaction);
+    }
   };
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (id: string) => {
     // Sua lógica de deletar
     console.log("Deletar transação com id:", id);
-  };
-
-  // Quando fechar modal, fecha e limpa transação
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setTimeout(() => setModalTransaction(null), 200); // timeout para esperar animação, se desejar
   };
 
   return (
@@ -153,19 +139,6 @@ export function Transactions() {
             ))}
         </TransactionsCards>
       </TransactionsContainer>
-
-      <Dialog.Root open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <Dialog.Portal>
-          <Dialog.Overlay />
-          <Dialog.Content>
-            <TransactionModal
-              transactionToEdit={modalTransaction || undefined}
-              onSubmitComplete={handleCloseModal}
-              key={modalTransaction?.id || "create"} // Força remount para cada transação
-            />
-          </Dialog.Content>
-        </Dialog.Portal>
-      </Dialog.Root>
     </div>
   );
 }

@@ -15,7 +15,7 @@ export interface ICreateTransactionInput {
 }
 
 export interface Transaction {
-  id: number;
+  id: string;
   description: string;
   type: "income" | "outcome";
   price: number;
@@ -35,12 +35,16 @@ export interface ITransactions {
   allTransactions: Transaction[];
   newTransaction: (data: CreateTransaction) => Promise<void>;
   updateTransaction: (
-    id: number,
+    id: string,
     updatedTransaction: Partial<Transaction>
   ) => void;
   searchTransaction: (query?: string) => Promise<void>;
   isModalOpen: boolean;
   setIsModalOpen: (valueModal: boolean) => void;
+  modalTransaction: Transaction | null;
+  openNewTransactionModal: () => void;
+  openEditTransactionModal: (transaction: Transaction) => void;
+  closeModal: () => void;
 }
 
 export interface TransactionContextType {
