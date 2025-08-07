@@ -2,7 +2,6 @@ import * as Dialog from "@radix-ui/react-dialog";
 import {
   CloseButton,
   Content,
-  Overlay,
   TransactionType,
   TransactionTypeButton,
 } from "./styles";
