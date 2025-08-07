@@ -29,7 +29,10 @@ export const Content = styled(Dialog.Content)`
     min-width: 90vw;
     max-width: 90vw;
     padding: 1.5rem;
-    margin: 1rem;
+    margin: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 
   form {

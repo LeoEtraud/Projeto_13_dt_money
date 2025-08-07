@@ -20,7 +20,7 @@ export const HeaderContent = styled.div`
   padding: 0 1.5rem;
 
   display: flex;
-  justify-content: left;
+  justify-content: space-between;
   align-items: center;
   gap: 2rem;
 
@@ -32,14 +32,23 @@ export const HeaderContent = styled.div`
   @media (max-width: 480px) {
     padding: 0 0.5rem;
     gap: 0.5rem;
-    flex-direction: column;
-    align-items: stretch;
+  }
+
+  img {
+    @media (max-width: 768px) {
+      width: 120px;
+      height: auto;
+    }
+
+    @media (max-width: 480px) {
+      width: 100px;
+      height: auto;
+    }
   }
 
   .actions {
     display: flex;
     gap: 1rem; // Espaço entre botões
-    margin-left: auto; // Joga para direita
     align-items: center;
 
     @media (max-width: 768px) {
@@ -47,8 +56,6 @@ export const HeaderContent = styled.div`
     }
 
     @media (max-width: 480px) {
-      margin-left: 0;
-      justify-content: center;
       gap: 0.5rem;
     }
   }
