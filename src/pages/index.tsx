@@ -6,6 +6,11 @@ import {
   PriceHighlight,
   TransactionsContainer,
   TransactionsTable,
+  TransactionsCards,
+  TransactionCard,
+  TransactionCardHeader,
+  TransactionCardContent,
+  TransactionCardActions,
 } from "./styles";
 
 import { dateFormatter, priceFormatter } from "../utils/formatter";
@@ -14,6 +19,7 @@ import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
 import * as Dialog from "@radix-ui/react-dialog";
 import { TransactionModal } from "../components/TransactionModal";
 import { TransactionsContext } from "../contexts/transactionProvider";
+import { Transaction } from "../contexts/transactionProvider/types";
 
 export function Transactions() {
   const {
@@ -25,7 +31,9 @@ export function Transactions() {
   } = useContext(TransactionsContext);
 
   // Aqui pode ser Transaction | null (assuma Transaction é o tipo do seu objeto)
-  const [modalTransaction, setModalTransaction] = useState<any | null>(null);
+  const [modalTransaction, setModalTransaction] = useState<Transaction | null>(
+    null
+  );
 
   useEffect(() => {
     searchTransaction();
@@ -34,7 +42,7 @@ export function Transactions() {
   // Abrir para editar
   const handleUpdate = (id: number) => {
     const transaction = allTransactions.find((t) => t.id === id);
-    setModalTransaction(transaction);
+    setModalTransaction(transaction || null);
     setIsModalOpen(true);
   };
 
@@ -56,6 +64,7 @@ export function Transactions() {
       <TransactionsContainer>
         <SearchForm />
 
+        {/* Tabela para desktop e tablet */}
         <TransactionsTable>
           <tbody>
             {Array.isArray(transactions) &&
@@ -97,6 +106,52 @@ export function Transactions() {
               ))}
           </tbody>
         </TransactionsTable>
+
+        {/* Cards para mobile */}
+        <TransactionsCards>
+          {Array.isArray(transactions) &&
+            transactions.map((transaction) => (
+              <TransactionCard key={transaction.id}>
+                <TransactionCardHeader>
+                  <TransactionCardContent>
+                    <strong>{transaction.description}</strong>
+                    <PriceHighlight variant={transaction.type}>
+                      {transaction.type === "outcome" && "- "}
+                      {priceFormatter.format(transaction.price)}
+                    </PriceHighlight>
+                  </TransactionCardContent>
+                </TransactionCardHeader>
+
+                <TransactionCardContent>
+                  <span>Categoria: {transaction.category}</span>
+                  <span>
+                    Data:{" "}
+                    {transaction.createdAt &&
+                    !isNaN(new Date(transaction.createdAt).getTime())
+                      ? dateFormatter.format(new Date(transaction.createdAt))
+                      : "--"}
+                  </span>
+                </TransactionCardContent>
+
+                <TransactionCardActions>
+                  <IconButton
+                    aria-label="Atualizar"
+                    title="Atualizar"
+                    icon={<EditIcon />}
+                    size="sm"
+                    onClick={() => handleUpdate(transaction.id)}
+                  />
+                  <IconButton
+                    aria-label="Deletar"
+                    title="Deletar"
+                    icon={<DeleteIcon />}
+                    size="sm"
+                    onClick={() => handleDelete(transaction.id)}
+                  />
+                </TransactionCardActions>
+              </TransactionCard>
+            ))}
+        </TransactionsCards>
       </TransactionsContainer>
 
       <Dialog.Root open={isModalOpen} onOpenChange={setIsModalOpen}>
@@ -104,7 +159,7 @@ export function Transactions() {
           <Dialog.Overlay />
           <Dialog.Content>
             <TransactionModal
-              transactionToEdit={modalTransaction}
+              transactionToEdit={modalTransaction || undefined}
               onSubmitComplete={handleCloseModal}
               key={modalTransaction?.id || "create"} // Força remount para cada transação
             />

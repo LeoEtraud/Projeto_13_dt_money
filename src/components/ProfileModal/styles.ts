@@ -1,12 +1,12 @@
-import styled from "styled-components";
 import * as Dialog from "@radix-ui/react-dialog";
+import styled from "styled-components";
 
 export const Overlay = styled(Dialog.Overlay)`
   position: fixed;
   width: 100vw;
   height: 100vh;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.75);
 `;
 
 export const Content = styled(Dialog.Content)`
@@ -20,12 +20,28 @@ export const Content = styled(Dialog.Content)`
   left: 50%;
   transform: translate(-50%, -50%);
 
+  @media (max-width: 768px) {
+    min-width: 28rem;
+    padding: 2rem 2.5rem;
+  }
+
+  @media (max-width: 480px) {
+    min-width: 90vw;
+    max-width: 90vw;
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+
   form {
     margin-top: 2rem;
 
     display: flex;
     flex-direction: column;
     gap: 1rem;
+
+    @media (max-width: 480px) {
+      gap: 0.75rem;
+    }
 
     .button-group {
       display: flex;
@@ -34,6 +50,10 @@ export const Content = styled(Dialog.Content)`
       gap: 1rem;
       width: 100%; // garante centralização total
       margin-top: 0.1rem;
+
+      @media (max-width: 480px) {
+        gap: 0.75rem;
+      }
     }
 
     input {
@@ -42,6 +62,10 @@ export const Content = styled(Dialog.Content)`
       background: ${(props) => props.theme["gray-900"]};
       color: ${(props) => props.theme["gray-300"]};
       padding: 1rem;
+
+      @media (max-width: 480px) {
+        padding: 0.875rem;
+      }
 
       &::placeholder {
         color: ${(props) => props.theme["gray-500"]};
@@ -61,6 +85,17 @@ export const Content = styled(Dialog.Content)`
       cursor: pointer;
 
       align-items: center;
+
+      @media (max-width: 768px) {
+        width: 16rem;
+        height: 52px;
+      }
+
+      @media (max-width: 480px) {
+        width: 100%;
+        height: 48px;
+        font-size: 0.875rem;
+      }
 
       &:disabled {
         opacity: 0.6;
@@ -85,6 +120,17 @@ export const Content = styled(Dialog.Content)`
       margin-top: 1rem;
       cursor: pointer;
 
+      @media (max-width: 768px) {
+        width: 8rem;
+        height: 52px;
+      }
+
+      @media (max-width: 480px) {
+        width: 100%;
+        height: 48px;
+        font-size: 0.875rem;
+      }
+
       &:disabled {
         opacity: 0.6;
         cursor: not-allowed;
@@ -104,9 +150,14 @@ export const CloseButton = styled(Dialog.Close)`
   border: 0;
   top: 1.5rem;
   right: 1.5rem;
-  font-size: 0;
+  line-height: 0;
   cursor: pointer;
   color: ${(props) => props.theme["gray-500"]};
+
+  @media (max-width: 480px) {
+    top: 1rem;
+    right: 1rem;
+  }
 `;
 
 export const ProfileButton = styled.button`
@@ -119,6 +170,18 @@ export const ProfileButton = styled.button`
   padding: 0 1.25rem;
   border-radius: 6px;
   cursor: pointer;
+
+  @media (max-width: 768px) {
+    height: 1.875rem;
+    width: 3.5rem;
+    padding: 0 1rem;
+  }
+
+  @media (max-width: 480px) {
+    height: 2.5rem;
+    width: 3rem;
+    padding: 0 0.75rem;
+  }
 
   &:hover {
     background: ${(props) => props.theme["gray-700"]};

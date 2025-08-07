@@ -1,13 +1,13 @@
-import styled from "styled-components";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as RadioGroup from "@radix-ui/react-radio-group";
+import styled from "styled-components";
 
 export const Overlay = styled(Dialog.Overlay)`
   position: fixed;
   width: 100vw;
   height: 100vh;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.75);
 `;
 
 export const Content = styled(Dialog.Content)`
@@ -21,6 +21,18 @@ export const Content = styled(Dialog.Content)`
   left: 50%;
   transform: translate(-50%, -50%);
 
+  @media (max-width: 768px) {
+    min-width: 28rem;
+    padding: 2rem 2.5rem;
+  }
+
+  @media (max-width: 480px) {
+    min-width: 90vw;
+    max-width: 90vw;
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+
   form {
     margin-top: 2rem;
 
@@ -28,12 +40,20 @@ export const Content = styled(Dialog.Content)`
     flex-direction: column;
     gap: 1rem;
 
+    @media (max-width: 480px) {
+      gap: 0.75rem;
+    }
+
     input {
       border-radius: 6px;
       border: 0;
       background: ${(props) => props.theme["gray-900"]};
       color: ${(props) => props.theme["gray-300"]};
       padding: 1rem;
+
+      @media (max-width: 480px) {
+        padding: 0.875rem;
+      }
 
       &::placeholder {
         color: ${(props) => props.theme["gray-500"]};
@@ -51,6 +71,17 @@ export const Content = styled(Dialog.Content)`
       margin-top: 1.5rem;
       cursor: pointer;
 
+      @media (max-width: 768px) {
+        height: 52px;
+        margin-top: 1rem;
+      }
+
+      @media (max-width: 480px) {
+        height: 48px;
+        margin-top: 0.75rem;
+        font-size: 0.875rem;
+      }
+
       &:disabled {
         opacity: 0.6;
         cursor: not-allowed;
@@ -64,15 +95,20 @@ export const Content = styled(Dialog.Content)`
   }
 `;
 
-export const CloseButton = styled(Dialog.Close)`
+export const CloseButton = styled.button`
   position: absolute;
   background: transparent;
   border: 0;
   top: 1.5rem;
   right: 1.5rem;
-  font-size: 0;
+  line-height: 0;
   cursor: pointer;
   color: ${(props) => props.theme["gray-500"]};
+
+  @media (max-width: 480px) {
+    top: 1rem;
+    right: 1rem;
+  }
 `;
 
 export const TransactionType = styled(RadioGroup.Root)`
@@ -80,6 +116,10 @@ export const TransactionType = styled(RadioGroup.Root)`
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
   margin-top: 0.5rem;
+
+  @media (max-width: 480px) {
+    gap: 0.75rem;
+  }
 `;
 
 interface TransactionTypeButtonProps {
@@ -89,16 +129,28 @@ interface TransactionTypeButtonProps {
 export const TransactionTypeButton = styled(
   RadioGroup.Item
 )<TransactionTypeButtonProps>`
-  background: ${(props) => props.theme["gray-700"]};
-  padding: 1rem;
+  height: 4rem;
+  border: 1px solid ${(props) => props.theme["gray-600"]};
+  border-radius: 6px;
+  background: transparent;
+  color: ${(props) => props.theme["gray-300"]};
+  cursor: pointer;
+
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  border-radius: 6px;
-  cursor: pointer;
-  border: 0;
-  color: ${(props) => props.theme["gray-300"]};
+
+  @media (max-width: 768px) {
+    height: 3.5rem;
+    font-size: 0.875rem;
+  }
+
+  @media (max-width: 480px) {
+    height: 3rem;
+    font-size: 0.75rem;
+    gap: 0.25rem;
+  }
 
   svg {
     color: ${(props) =>
@@ -107,20 +159,22 @@ export const TransactionTypeButton = styled(
         : props.theme["red-300"]};
   }
 
-  &[data-state="unchecked"]:hover {
-    transition: background-color 0.2s;
-    background: ${(props) => props.theme["gray-600"]};
+  &:hover {
+    border-color: ${(props) =>
+      props.variant === "income"
+        ? props.theme["green-500"]
+        : props.theme["red-500"]};
   }
 
   &[data-state="checked"] {
-    color: ${(props) => props.theme.white};
     background: ${(props) =>
       props.variant === "income"
         ? props.theme["green-500"]
         : props.theme["red-500"]};
-
-    svg {
-      color: ${(props) => props.theme.white};
-    }
+    color: ${(props) => props.theme.white};
+    border-color: ${(props) =>
+      props.variant === "income"
+        ? props.theme["green-500"]
+        : props.theme["red-500"]};
   }
 `;
