@@ -15,12 +15,7 @@ export async function createTransaction(data: CreateTransaction) {
 export async function fetchTransaction(query?: string) {
   try {
     const request = await apiDtMoney.post("/transactions/search", {
-      params: {
-        _sort: "id",
-        _order: "desc",
-        q: query, // pesquisa por query se existir
-        page: 0,
-      },
+      query,
     });
     return request.data;
   } catch (error) {
