@@ -7,6 +7,7 @@ import { ProfileButton } from "../ProfileModal/styles";
 import { List } from "phosphor-react";
 import { useContext } from "react";
 import { TransactionsContext } from "../../contexts/transactionProvider";
+import { Overlay } from "../TransactionModal/styles";
 
 export function Header() {
   const { isModalOpen, modalTransaction, openNewTransactionModal, closeModal } =
@@ -19,24 +20,26 @@ export function Header() {
 
         <div className="actions">
           {/* MODAL DE NOVA TRANSAÇÃO */}
-          <Dialog.Root open={isModalOpen} onOpenChange={closeModal}>
+          <Dialog.Root
+            open={isModalOpen}
+            onOpenChange={(open) =>
+              open ? openNewTransactionModal() : closeModal()
+            }
+          >
+            {/* Você pode usar Trigger ou manter o onClick manual */}
             <NewTransactionButton onClick={openNewTransactionModal}>
               Nova Transação
             </NewTransactionButton>
-            <TransactionModal
-              transactionToEdit={modalTransaction || undefined}
-              onSubmitComplete={closeModal}
-              key={modalTransaction?.id || "create"} // Força remount para cada transação
-            />
-          </Dialog.Root>
 
-          {/* MODAL DE NOVO USUÁRIO */}
-          {/* <Dialog.Root>
-            <Dialog.Trigger asChild>
-              <NewUserButton>Novo Usuário</NewUserButton>
-            </Dialog.Trigger>
-            <NewUserModal />
-          </Dialog.Root> */}
+            <Dialog.Portal>
+              <Overlay />
+              <TransactionModal
+                transactionToEdit={modalTransaction || undefined}
+                onSubmitComplete={closeModal}
+                key={modalTransaction?.id || "create"}
+              />
+            </Dialog.Portal>
+          </Dialog.Root>
 
           {/* MODAL DE PERFIL */}
           <Dialog.Root>

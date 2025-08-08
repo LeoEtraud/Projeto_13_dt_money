@@ -4,16 +4,20 @@ import styled from "styled-components";
 
 export const Overlay = styled(Dialog.Overlay)`
   position: fixed;
+  inset: 0;
   width: 100vw;
   height: 100vh;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.75);
+
+  background: rgba(0, 0, 0, 0.78);
   backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+
+  z-index: 999; /* 🔑 cobre a app inteira */
 `;
 
 export const Content = styled(Dialog.Content)`
   min-width: 32rem;
-  border-radius: 6px;
+  border-radius: 10px;
   padding: 2.5rem 3rem;
   background: ${(props) => props.theme["gray-800"]};
 
@@ -21,6 +25,14 @@ export const Content = styled(Dialog.Content)`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+
+  /* 🔥 destaque do modal */
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.55),
+    0 8px 24px rgba(0, 0, 0, 0.35);
+  outline: 1px solid rgba(255, 255, 255, 0.06);
+
+  z-index: 1000; /* 🔑 acima do overlay */
 
   @media (max-width: 768px) {
     min-width: 28rem;
@@ -32,9 +44,6 @@ export const Content = styled(Dialog.Content)`
     max-width: 90vw;
     padding: 1.5rem;
     margin: 0;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
   }
 
   form {
