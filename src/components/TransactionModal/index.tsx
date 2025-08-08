@@ -4,7 +4,6 @@ import {
   Content,
   TransactionType,
   TransactionTypeButton,
-  Overlay, // <— certifique-se de exportar no styles
 } from "./styles";
 import { ArrowCircleDown, ArrowCircleUp, X } from "phosphor-react";
 import { Controller, useForm } from "react-hook-form";
@@ -15,24 +14,19 @@ import { TransactionsContext } from "../../contexts/transactionProvider";
 import { Transaction } from "../../contexts/transactionProvider/types";
 
 const newTransactionFormSchema = z.object({
-  description: z.string().min(1, "Descrição obrigatória"),
+  description: z.string(),
   price: z.number(),
-  category: z.string().min(1, "Categoria obrigatória"),
+  category: z.string(),
   type: z.enum(["income", "outcome"]),
 });
-
 type NewTransactionFormInputs = z.infer<typeof newTransactionFormSchema>;
 
 interface TransactionModalProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
   transactionToEdit?: Transaction;
   onSubmitComplete?: () => void;
 }
 
 export function TransactionModal({
-  open,
-  onOpenChange,
   transactionToEdit,
   onSubmitComplete,
 }: TransactionModalProps) {
@@ -82,80 +76,64 @@ export function TransactionModal({
     await searchTransaction();
     reset();
     onSubmitComplete?.();
-    onOpenChange(false); // fecha o modal ao concluir
   }
 
   return (
-    <Dialog.Root open={open} onOpenChange={onOpenChange}>
-      <Dialog.Portal>
-        {/* 🔑 Overlay visível cobrindo a app */}
-        <Overlay />
+    <Content>
+      <Dialog.Title>
+        {transactionToEdit ? "Editar Transação" : "Nova Transação"}
+      </Dialog.Title>
 
-        <Content
-          onInteractOutside={(e) => e.preventDefault()} // evita fechar ao clicar fora (opcional)
-        >
-          <Dialog.Title>
-            {transactionToEdit ? "Editar Transação" : "Nova Transação"}
-          </Dialog.Title>
+      <Dialog.Close asChild>
+        <CloseButton type="button" title="Fechar">
+          <X size={24} />
+        </CloseButton>
+      </Dialog.Close>
 
-          {/* Use o Close do Radix para garantir o fechamento */}
-          <Dialog.Close asChild>
-            <CloseButton type="button" title="Fechar">
-              <X size={24} />
-            </CloseButton>
-          </Dialog.Close>
+      <form onSubmit={handleSubmit(handleFormSubmit)}>
+        <input
+          type="text"
+          placeholder="Descrição"
+          {...register("description")}
+          autoComplete="off"
+          autoFocus
+        />
+        <input
+          type="number"
+          placeholder="Preço"
+          {...register("price", { valueAsNumber: true })}
+          autoComplete="off"
+          inputMode="decimal"
+        />
+        <input
+          type="text"
+          placeholder="Categoria"
+          {...register("category")}
+          autoComplete="off"
+        />
 
-          <form onSubmit={handleSubmit(handleFormSubmit)}>
-            <input
-              type="text"
-              placeholder="Descrição"
-              {...register("description")}
-              autoComplete="off"
-              autoFocus
-            />
+        <Controller
+          control={control}
+          name="type"
+          render={({ field }) => (
+            <TransactionType onValueChange={field.onChange} value={field.value}>
+              <TransactionTypeButton variant="income" value="income">
+                <ArrowCircleUp size={24} />
+                Entrada
+              </TransactionTypeButton>
 
-            <input
-              type="number"
-              placeholder="Preço"
-              {...register("price", { valueAsNumber: true })}
-              autoComplete="off"
-              inputMode="decimal"
-            />
+              <TransactionTypeButton variant="outcome" value="outcome">
+                <ArrowCircleDown size={24} />
+                Saída
+              </TransactionTypeButton>
+            </TransactionType>
+          )}
+        />
 
-            <input
-              type="text"
-              placeholder="Categoria"
-              {...register("category")}
-              autoComplete="off"
-            />
-
-            <Controller
-              control={control}
-              name="type"
-              render={({ field }) => (
-                <TransactionType
-                  onValueChange={field.onChange}
-                  value={field.value}
-                >
-                  <TransactionTypeButton variant="income" value="income">
-                    <ArrowCircleUp size={24} />
-                    Entrada
-                  </TransactionTypeButton>
-
-                  <TransactionTypeButton variant="outcome" value="outcome">
-                    <ArrowCircleDown size={24} />
-                    Saída
-                  </TransactionTypeButton>
-                </TransactionType>
-              )}
-            />
-
-            <button type="submit" disabled={isSubmitting}>
-              {transactionToEdit ? "Atualizar" : "Cadastrar"}
-            </button>
-          </form>
-        </Content>
-      </Dialog.Portal>
-    </Dialog.Root>
+        <button type="submit" disabled={isSubmitting}>
+          {transactionToEdit ? "Atualizar" : "Cadastrar"}
+        </button>
+      </form>
+    </Content>
   );
 }
