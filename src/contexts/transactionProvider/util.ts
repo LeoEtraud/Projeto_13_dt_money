@@ -14,7 +14,7 @@ export async function createTransaction(data: CreateTransaction) {
 // REQUISIÇÃO A API PARA LISTAGEM DE TRANSAÇÕES
 export async function fetchTransaction(query?: string) {
   try {
-    const request = await apiDtMoney.get("/transactions", {
+    const request = await apiDtMoney.post("/transactions/search", {
       params: {
         _sort: "id",
         _order: "desc",
