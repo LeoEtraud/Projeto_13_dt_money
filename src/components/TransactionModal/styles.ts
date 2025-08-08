@@ -8,13 +8,14 @@ export const Overlay = styled(Dialog.Overlay)`
   height: 100vh;
   inset: 0;
   background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
 `;
 
 export const Content = styled(Dialog.Content)`
   min-width: 32rem;
   border-radius: 6px;
   padding: 2.5rem 3rem;
-  background: rgba(34, 34, 44, 0.9);
+  background: ${(props) => props.theme["gray-800"]};
 
   position: fixed;
   top: 50%;
