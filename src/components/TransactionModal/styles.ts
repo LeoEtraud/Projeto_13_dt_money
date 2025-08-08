@@ -14,7 +14,7 @@ export const Content = styled(Dialog.Content)`
   min-width: 32rem;
   border-radius: 6px;
   padding: 2.5rem 3rem;
-  background: ${(props) => props.theme["gray-800"]};
+  background: rgba(34, 34, 44, 0.9);
 
   position: fixed;
   top: 50%;
