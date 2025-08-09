@@ -35,7 +35,7 @@ export function TransactionsProvider({ children }: TransactionContextType) {
         isClosable: true,
       });
       // ATUALIZA A LISTA COM MINHA NOVA TRANSAÇÃO
-      searchTransaction("");
+      searchTransaction();
     } catch (error: unknown) {
       const errorMessage =
         error instanceof Error ? error.message : "Erro desconhecido";
@@ -89,9 +89,9 @@ export function TransactionsProvider({ children }: TransactionContextType) {
   }
 
   // FUNÇÃO DE LISTAGEM DE TRANSAÇÕES
-  async function searchTransaction(query?: string): Promise<void> {
+  async function searchTransaction(): Promise<void> {
     try {
-      const response = await fetchTransaction(query);
+      const response = await fetchTransaction();
 
       // A API retorna um objeto com a propriedade 'transactions'
       const transactionsArray = response.transactions || response;

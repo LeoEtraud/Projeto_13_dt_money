@@ -12,11 +12,9 @@ export async function createTransaction(data: CreateTransaction) {
 }
 
 // REQUISIÇÃO A API PARA LISTAGEM DE TRANSAÇÕES
-export async function fetchTransaction(query?: string) {
+export async function fetchTransaction() {
   try {
-    const request = await apiDtMoney.post("/transactions/search", {
-      query,
-    });
+    const request = await apiDtMoney.get("/transactions/search");
     return request.data;
   } catch (error) {
     return Promise.reject(error);

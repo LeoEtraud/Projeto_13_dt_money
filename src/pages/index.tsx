@@ -115,7 +115,7 @@ export function Transactions() {
                     {transaction.createdAt &&
                     !isNaN(new Date(transaction.createdAt).getTime())
                       ? dateFormatter.format(new Date(transaction.createdAt))
-                      : "--"}
+                      : ""}
                   </span>
                 </TransactionCardContent>
 
