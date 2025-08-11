@@ -1,4 +1,4 @@
-import { MagnifyingGlass } from "phosphor-react";
+import { MagnifyingGlass, Trash } from "phosphor-react";
 import { SearchFormContainer } from "./styles";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -44,13 +44,23 @@ export function SearchForm() {
         placeholder="Busque por transações"
         {...register("query")}
       />
-      <button type="submit" disabled={isSubmitting}>
-        <MagnifyingGlass size={20} />
-        Buscar
-      </button>
-      <button type="button" onClick={handleClearSearch} disabled={isSubmitting}>
-        Limpar
-      </button>
+
+      {/* Agrupamento de botões */}
+      <div className="buttons-row">
+        <button type="submit" disabled={isSubmitting}>
+          <MagnifyingGlass size={20} />
+          Buscar
+        </button>
+        <button
+          type="button"
+          className="clear-btn"
+          onClick={handleClearSearch}
+          disabled={isSubmitting}
+        >
+          <Trash size={20} />
+          Limpar
+        </button>
+      </div>
     </SearchFormContainer>
   );
 }
